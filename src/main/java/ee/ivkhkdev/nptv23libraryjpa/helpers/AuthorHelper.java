@@ -1,5 +1,6 @@
 package ee.ivkhkdev.nptv23libraryjpa.helpers;
 import ee.ivkhkdev.nptv23libraryjpa.entity.Author;
+import ee.ivkhkdev.nptv23libraryjpa.entity.Book;
 import ee.ivkhkdev.nptv23libraryjpa.interfaces.AppHelper;
 import ee.ivkhkdev.nptv23libraryjpa.interfaces.AuthorRepository;
 import ee.ivkhkdev.nptv23libraryjpa.interfaces.Input;
@@ -38,8 +39,7 @@ public class AuthorHelper implements AppHelper<Author> {
     }
 
     @Override
-    public boolean printList() {
-        List<Author> authors = authorRepository.findAll();
+    public boolean printList(List<Author> authors) {
         try {
             if(authors.isEmpty()){
                 System.out.println("Список авторов пуст");
@@ -48,7 +48,11 @@ public class AuthorHelper implements AppHelper<Author> {
             System.out.println("---------- Список авторов --------");
             for(int i=0;i<authors.size();i++) {
                 Author author = authors.get(i);
-                System.out.printf("%d. %s %s%n", author.getId(),author.getFirstname(),author.getLastname());
+                System.out.printf("%d. %s %s%n",
+                        author.getId(),
+                        author.getFirstname(),
+                        author.getLastname()
+                );
             }
             return true;
         }catch (Exception e){
@@ -56,8 +60,16 @@ public class AuthorHelper implements AppHelper<Author> {
         }
         return false;
     }
-    public List<Author> listAuthorsForBook() {
-        this.printList();
+
+    @Override
+    public Long remove(List<Author> authors) {
+        this.printList(authors);
+        System.out.println("Выберите номер автора для удаления: ");
+        return (long) input.getInt();
+    }
+
+    public List<Author> listAuthorsForBook(List<Author> authors) {
+        this.printList(authors);
         System.out.print("Сколько авторов у книги: ");
         int countAuthorsForBook = input.getInt();
         List<Author> authorsForBook = new ArrayList<>();

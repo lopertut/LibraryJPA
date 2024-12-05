@@ -30,7 +30,7 @@ public class BookService implements AppService<Book> {
             return false;
         }
         Book book = optionalBook.get();
-        List<Author> bookAuthors = authorHelper.listAuthorsForBook();
+        List<Author> bookAuthors = authorHelper.listAuthorsForBook((List<Author>) authorRepository.findAll());
         book.setAuthors(bookAuthors);
         Book savedBook = bookRepository.save(book);
         for(Author author : bookAuthors) {
@@ -47,12 +47,23 @@ public class BookService implements AppService<Book> {
     }
 
     @Override
-    public boolean delete(Book book) {
-        return false;
+    public boolean delete() {
+        Long bookId = bookHelper.remove(bookRepository.findAll());
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if(optionalBook.isEmpty()) {
+            return false;
+        }
+        Book book = optionalBook.get();
+//        for(Author author : book.getAuthors()) {
+//            author.getBooks().remove(book);
+//            authorRepository.save(author);
+//        }
+        bookRepository.delete(book);
+        return true;
     }
 
     @Override
     public boolean print() {
-        return false;
+        return bookHelper.printList(bookRepository.findAll());
     }
 }

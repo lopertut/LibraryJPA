@@ -1,14 +1,17 @@
 package ee.ivkhkdev.nptv23libraryjpa.services;
 
 import ee.ivkhkdev.nptv23libraryjpa.entity.Author;
+import ee.ivkhkdev.nptv23libraryjpa.entity.Book;
 import ee.ivkhkdev.nptv23libraryjpa.helpers.AuthorHelper;
 import ee.ivkhkdev.nptv23libraryjpa.interfaces.AppHelper;
 import ee.ivkhkdev.nptv23libraryjpa.interfaces.AppService;
 import ee.ivkhkdev.nptv23libraryjpa.interfaces.AuthorRepository;
+import ee.ivkhkdev.nptv23libraryjpa.interfaces.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Spliterator;
 
 @Service
 public class AuthorService implements AppService<Author> {
@@ -19,6 +22,8 @@ public class AuthorService implements AppService<Author> {
     private AuthorRepository authorRepository;
     @Autowired
     private AuthorHelper authorHelper;
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
     public boolean add() {
@@ -36,13 +41,25 @@ public class AuthorService implements AppService<Author> {
     }
 
     @Override
-    public boolean delete(Author author) {
-        return false;
+    public boolean delete() {
+        Long authorId = authorHelper.remove(authorRepository.findAll());
+        Optional<Author> optionalAuthor = authorRepository.findById(authorId);
+        if (optionalAuthor.isEmpty()) {
+            return false;
+        }
+        Author author = optionalAuthor.get();
+        for(int i = 0; i<author.getBooks().size(); i++) {
+            Book book = author.getBooks().get(i);
+            book.getAuthors().remove(author);
+            bookRepository.save(book);
+        }
+        authorRepository.delete(author);
+        return true;
     }
 
     @Override
     public boolean print() {
-         return authorAppHelper.printList();
+         return authorAppHelper.printList(authorRepository.findAll());
     }
 
 

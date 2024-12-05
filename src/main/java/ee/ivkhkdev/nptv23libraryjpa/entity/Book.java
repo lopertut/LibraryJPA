@@ -13,7 +13,7 @@ public class Book {
     private Long id;
     private String title;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinTable(
             name = "book_authors",
             joinColumns = @JoinColumn(name = "book_id"),

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.transaction.TransactionProperties;
 
 @SpringBootApplication
 public class Nptv23LibraryJpaApplication implements CommandLineRunner {
@@ -17,6 +18,8 @@ public class Nptv23LibraryJpaApplication implements CommandLineRunner {
 	private AuthorService authorService;
 	@Autowired
 	private BookService bookService;
+    @Autowired
+    private TransactionProperties transactionProperties;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -28,6 +31,11 @@ public class Nptv23LibraryJpaApplication implements CommandLineRunner {
 			System.out.println("0. Выйти из программы");
 			System.out.println("1. Добавить автора");
 			System.out.println("2. Добавить книгу");
+			System.out.println("3. Список авторов");
+			System.out.println("4. Список книг");
+			System.out.println("5. Удалить автора");
+			System.out.println("6. Удалить книгу");
+
 			System.out.print("Введите номер задачи: ");
 			int task = Integer.parseInt(input.getString());
 			switch (task) {
@@ -47,6 +55,18 @@ public class Nptv23LibraryJpaApplication implements CommandLineRunner {
 					}else{
 						System.out.println("Книгу добавить не удалось");
 					};
+					break;
+				case 3:
+					authorService.print();
+					break;
+				case 4:
+					bookService.print();
+					break;
+				case 5:
+					authorService.delete();
+					break;
+				case 6:
+					bookService.delete();
 					break;
 				default:
 					System.out.println("Выберите задачу из списка!");
