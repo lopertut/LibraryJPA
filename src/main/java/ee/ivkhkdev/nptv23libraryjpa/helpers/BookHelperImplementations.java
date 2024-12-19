@@ -1,6 +1,5 @@
 package ee.ivkhkdev.nptv23libraryjpa.helpers;
 
-import ee.ivkhkdev.nptv23libraryjpa.entity.Author;
 import ee.ivkhkdev.nptv23libraryjpa.entity.Book;
 import ee.ivkhkdev.nptv23libraryjpa.interfaces.AppHelper;
 import ee.ivkhkdev.nptv23libraryjpa.interfaces.Input;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 @Component
-public class BookHelper implements AppHelper<Book> {
+public class BookHelperImplementations implements AppHelper<Book> {
 
     @Autowired private Input input;
 

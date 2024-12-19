@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class AuthorHelper implements AppHelper<Author> {
+public class AuthorHelperImplementation implements AppHelper<Author> {
     @Autowired
     private Input input;
 
