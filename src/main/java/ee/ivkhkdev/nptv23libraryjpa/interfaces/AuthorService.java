@@ -1,4 +1,6 @@
 package ee.ivkhkdev.nptv23libraryjpa.interfaces;
 
-public interface AuthorService {
+import ee.ivkhkdev.nptv23libraryjpa.entity.Author;
+
+public interface AuthorService extends AppService<Author> {
 }
