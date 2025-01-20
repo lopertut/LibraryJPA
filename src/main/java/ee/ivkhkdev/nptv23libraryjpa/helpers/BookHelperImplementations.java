@@ -59,8 +59,6 @@ public class BookHelperImplementations implements AppHelper<Book> {
         }
         return false;
     }
-
-    @Override
     public Long findIdEntityForChangeAvailability(List<Book> books) {
         this.printList(books);
         System.out.print("Выберите номер книги для удаления: ");
